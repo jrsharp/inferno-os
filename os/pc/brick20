@@ -1,0 +1,172 @@
+# Lucent VPN Firewall Brick 20 configuration
+#
+# Hardware:
+#   CPU: Rise mP6 120 MHz (Socket 7, Pentium-compatible, MMX)
+#   RAM: 64 MB
+#   Network: 3x 10/100 Base-TX Ethernet (chipset TBD)
+#   Storage: Boot from floppy, runs from flash
+#   Ports: DB9 serial, SVGA, PS/2 keyboard, external floppy
+#   Power: 20W passive cooled
+#
+# Primary console is serial (DB9) at 9600 baud
+
+dev
+	root
+	cons
+	arch
+	env
+	mnt
+	pipe
+	prog
+	rtc
+	srv
+	dup
+	ssl
+	cap
+
+# Graphics - optional, enable for debug with monitor attached
+#	draw	screen vga vgax cga
+#	pointer
+#	vga
+
+# Networking - core of the firewall
+	ip	bootp ip ipv6 ipaux iproute arp netlog ptclbsum386 iprouter plan9 nullmedium pktmedium
+	ether		netif netaux ethermedium
+
+# Storage
+	floppy	dma
+	tinyfs
+
+# Serial console
+	uart
+
+ip
+	tcp
+	udp
+	ipifc
+	icmp
+	icmp6
+	ipmux
+
+lib
+	interp
+	keyring
+	sec
+	mp
+	math
+	kern
+# Omit graphics libs when running headless
+#	draw
+#	memlayer
+#	memdraw
+#	tk
+
+link
+# Include multiple ethernet drivers - one should match the hardware
+# DEC 21x4x Tulip family (common in late 90s appliances)
+	ether2114x	pci
+# Intel 82557/82558/82559 (very common)
+	ether82557	pci
+# National Semiconductor DP83815 (common in embedded)
+	ether83815	pci
+# Realtek 8139 (budget option)
+	ether8139	pci
+# 3Com EtherLink III
+	etherelnk3	pci
+# VIA Rhine (found in some appliances)
+	etherrhine	pci
+
+# Keyboard for local console if attached - disabled for headless
+#	ps2mouse
+
+	ethermedium
+
+misc
+# CGA text for basic serial/text console
+	cga
+# UART driver for serial console
+	uarti8250
+# VGA drivers - uncomment if using video output
+#	vgas3	+cur vgasavage
+#	vgamach64xx
+
+mod
+	sys
+	keyring
+# Omit graphics modules when headless
+#	draw
+#	tk
+	math
+
+init
+# Use shell for serial console, wminit for graphics
+	shell
+
+code
+# Memory pool tuning for 64MB RAM
+# Smaller pools than default since we have limited RAM
+	int kernel_pool_pcnt = 10;
+	int main_pool_pcnt = 30;
+	int heap_pool_pcnt = 30;
+	int image_pool_pcnt = 20;
+	int cflag = 0;
+	int swcursor = 0;
+# Enable kernel print to console (serial when no graphics)
+	int consoleprint = 1;
+
+port
+	alarm
+	alloc
+	allocb
+	chan
+	dev
+	dial
+	dis
+	discall
+	ethermii
+	exception
+	exportfs
+	inferno
+	latin1
+	nocache
+	nodynld
+	parse
+	pgrp
+	print
+	proc
+	qio
+	qlock
+	random
+	sysfile
+	taslock
+	xalloc
+
+root
+	/chan	/
+	/dev	/
+	/dis
+	/env	/
+	/fd	/
+	/n
+	/n/remote
+	/net	/
+	/nvfs	/
+	/prog	/
+	/dis/lib
+	/dis/svc
+	/osinit.dis
+	/dis/sh.dis
+	/dis/ls.dis
+	/dis/cat.dis
+	/dis/bind.dis
+	/dis/mount.dis
+	/dis/pwd.dis
+	/dis/echo.dis
+	/dis/cd.dis
+	/dis/lib/bufio.dis
+	/dis/lib/string.dis
+	/dis/lib/readdir.dis
+	/dis/lib/workdir.dis
+	/dis/lib/daytime.dis
+	/dis/lib/auth.dis
+	/dis/lib/ssl.dis
