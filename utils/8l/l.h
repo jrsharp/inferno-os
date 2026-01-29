@@ -233,7 +233,7 @@ EXTERN	Prog*	datap;
 EXTERN	Prog*	edatap;
 EXTERN	long	datsize;
 EXTERN	char	debug[128];
-EXTERN	char	literal[32];
+EXTERN	char	literal[64];	/* increased from 32 for 64-bit %lux */
 EXTERN	Prog*	etextp;
 EXTERN	Prog*	firstp;
 EXTERN	uchar	fnuxi8[8];
