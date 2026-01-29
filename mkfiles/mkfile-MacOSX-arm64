@@ -1,0 +1,51 @@
+# MacOSX ARM64 (Apple Silicon) configuration
+TARGMODEL=	Posix
+TARGSHTYPE=	sh
+CPUS=		arm64
+
+O=		o
+OS=		o
+
+AR=		ar
+ARFLAGS=	ruvs
+A=		a
+
+# Minimum macOS version for ARM64
+MACVER=	11.0
+
+AS=		cc -c -arch arm64
+ASFLAGS=	-mmacosx-version-min=$MACVER
+
+CC=		cc -c
+COPTFLAGS=	-Os
+CDEBUGFLAGS=
+CTHREADFLAGS=
+CFLAGS= 	-arch arm64\
+		-mmacosx-version-min=$MACVER\
+		-Wno-deprecated-declarations -Wuninitialized -Wunused -Wreturn-type -Wimplicit\
+		-Wno-main-return-type \
+		-Wno-logical-op-parentheses \
+		-Wno-constant-conversion -Wno-bitwise-op-parentheses -Wno-unused-function \
+		-Wno-shift-op-parentheses -Wno-dangling-else \
+		-Wno-parentheses \
+		-Wno-switch \
+		-Wno-tautological-compare \
+		-Wno-string-plus-int \
+		-Wno-implicit-function-declaration \
+		-Wno-incompatible-function-pointer-types \
+		-Wno-int-conversion \
+		-Wno-implicit-int \
+		-pipe\
+		-fno-strict-aliasing\
+		-I$ROOT/MacOSX/arm64/include\
+		-I$ROOT/include\
+		$COPTFLAGS $CDEBUGFLAGS\
+
+LD=		cc -arch arm64
+LDFLAGS=\
+		-mmacosx-version-min=$MACVER
+
+SYSLIBS=
+
+YACC=		iyacc
+YFLAGS=		-d

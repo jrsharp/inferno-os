@@ -1,0 +1,50 @@
+# MacOSX AMD64/x86_64 configuration (runs via Rosetta 2 on Apple Silicon)
+TARGMODEL=	Posix
+TARGSHTYPE=	sh
+CPUS=		amd64
+
+O=		o
+OS=		o
+
+AR=		ar
+ARFLAGS=	ruvs
+A=		a
+
+MACVER=	10.15
+
+AS=		cc -c -arch x86_64
+ASFLAGS=	-mmacosx-version-min=$MACVER
+
+CC=		cc -c
+COPTFLAGS=	-Os
+CDEBUGFLAGS=
+CTHREADFLAGS=
+CFLAGS= 	-arch x86_64\
+		-mmacosx-version-min=$MACVER\
+		-Wno-deprecated-declarations -Wuninitialized -Wunused -Wreturn-type -Wimplicit\
+		-Wno-main-return-type \
+		-Wno-logical-op-parentheses \
+		-Wno-constant-conversion -Wno-bitwise-op-parentheses -Wno-unused-function \
+		-Wno-shift-op-parentheses -Wno-dangling-else \
+		-Wno-parentheses \
+		-Wno-switch \
+		-Wno-tautological-compare \
+		-Wno-string-plus-int \
+		-Wno-implicit-function-declaration \
+		-Wno-incompatible-function-pointer-types \
+		-Wno-int-conversion \
+		-Wno-implicit-int \
+		-pipe\
+		-fno-strict-aliasing\
+		-I$ROOT/MacOSX/amd64/include\
+		-I$ROOT/include\
+		$COPTFLAGS $CDEBUGFLAGS\
+
+LD=		cc -arch x86_64
+LDFLAGS=\
+		-mmacosx-version-min=$MACVER
+
+SYSLIBS=
+
+YACC=		iyacc
+YFLAGS=		-d
