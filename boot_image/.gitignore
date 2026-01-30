@@ -3,6 +3,7 @@
 *.gz
 *.bin
 
-# Keep README and example config
+# Keep documentation and scripts
 !README.md
 !plan9.ini
+!run-qemu.sh
