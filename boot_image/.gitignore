@@ -1,0 +1,8 @@
+# Build artifacts
+*.img
+*.gz
+*.bin
+
+# Keep README and example config
+!README.md
+!plan9.ini

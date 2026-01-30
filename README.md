@@ -40,8 +40,48 @@ cd os/pc
 mk 'CONF=pc'
 ```
 
+### Building a Native Kernel with Live Root Filesystem
+
+The `brick20` configuration creates a self-contained kernel with embedded
+root filesystem, suitable for booting legacy x86 hardware from floppy:
+
+```bash
+# Ensure PATH includes the cross-compiler
+export ROOT=/path/to/inferno-os
+export PATH="$ROOT/MacOSX/amd64/bin:$PATH"
+
+# Build the kernel
+cd os/pc
+mk CONF=brick20
+
+# The kernel is created as 'ibrick20'
+ls -la ibrick20
+```
+
+The resulting kernel includes:
+- Interactive shell with basic commands (ls, cat, bind, mount, etc.)
+- IDE/ATA disk driver for local storage
+- Multiple ethernet drivers (Tulip, Intel, Realtek, 3Com, VIA)
+- Networking tools (dhcp, ping, dns, netstat)
+- DOS filesystem server for mounting FAT partitions
+
+See `boot_image/README.md` for creating bootable floppy images.
+
+### Testing with QEMU
+
+```bash
+cd boot_image
+# Create floppy image following boot_image/README.md instructions, then:
+qemu-system-i386 -fda floppy.img -boot a -nographic
+
+# With networking (RTL8139) and IDE disk:
+qemu-system-i386 -fda floppy.img -hda test.img -boot a \
+    -net nic,model=rtl8139 -net user -nographic
+```
+
 ### Notes
 
 - The `amd64` build works via Rosetta 2 on Apple Silicon Macs
 - Native `arm64` builds are for the hosted emulator only (no arm64 native Inferno kernel exists yet)
+- The 8l linker (and others) had a buffer overflow on 64-bit hosts that has been fixed
 - See `INSTALL` for detailed build instructions
