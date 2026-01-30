@@ -33,7 +33,9 @@ dev
 	ip	bootp ip ipv6 ipaux iproute arp netlog ptclbsum386 iprouter plan9 nullmedium pktmedium
 	ether		netif netaux ethermedium
 
-# Storage
+# Storage - IDE/ATA and floppy
+	sd
+	ds
 	floppy	dma
 	tinyfs
 
@@ -86,6 +88,8 @@ misc
 	cga
 # UART driver for serial console
 	uarti8250
+# IDE/ATA disk driver
+	sdata	pci sdscsi
 # VGA drivers - uncomment if using video output
 #	vgas3	+cur vgasavage
 #	vgamach64xx
@@ -165,8 +169,30 @@ root
 	/dis/cd.dis
 	/dis/lib/bufio.dis
 	/dis/lib/string.dis
+	/dis/lib/filepat.dis
 	/dis/lib/readdir.dis
 	/dis/lib/workdir.dis
 	/dis/lib/daytime.dis
 	/dis/lib/auth.dis
 	/dis/lib/ssl.dis
+	/dis/lib/env.dis
+	/dis/lib/arg.dis
+	/dis/lib/regex.dis
+	/dis/lib/lists.dis
+	/dis/lib/ip.dis
+	/dis/lib/ipattr.dis
+	/dis/lib/styx.dis
+	/dis/lib/dhcpclient.dis
+# Networking commands
+	/dis/ip
+	/dis/ip/dhcp.dis
+	/dis/ip/ping.dis
+	/dis/ndb
+	/dis/ndb/cs.dis
+	/dis/ndb/dns.dis
+	/dis/netstat.dis
+# DOS filesystem for reading FAT partitions
+	/dis/dossrv.dis
+# Disk utilities
+	/dis/disk
+	/dis/disk/fdisk.dis
